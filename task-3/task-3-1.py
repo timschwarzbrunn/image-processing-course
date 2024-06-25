@@ -19,7 +19,7 @@ def task_3_1():
     This function applys the edge detection to an image in three different sizes.
     """
     # Read an image from an URL.
-    url = "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F4%2F44%2FWood_fence.jpg&f=1&nofb=1&ipt=7074d53ba8040b9b73789433353f6f578e483804ca0d6dbc03d93a87b851590b&ipo=images"
+    url = "https://assets.serlo.org/legacy/1538.png"
     img_orig = np.array(Image.open(requests.get(url, stream=True).raw))
     img_half_size = cv2.resize(
         img_orig, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_LINEAR
@@ -116,8 +116,7 @@ def get_sobel_edge_detector_kernel():
     This function returns two kernels, the horizontal and the vertical sobel operator.
     """
     kernel_x = np.array([[1, 0, -1], [2, 0, -2], [1, 0, -1]])
-    kernel_y = kernel_x
-    np.transpose(kernel_y)
+    kernel_y = np.transpose(kernel_x)
     return (kernel_x, kernel_y)
 
 

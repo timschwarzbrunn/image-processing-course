@@ -1,8 +1,8 @@
 import cv2
 import numpy as np
 import scipy
-from sift_keypoint import SIFT_KeyPoint
-from sift_params import SIFT_Params
+from sift.sift_keypoint import SIFT_KeyPoint
+from sift.sift_params import SIFT_Params
 from typing import Tuple
 
 

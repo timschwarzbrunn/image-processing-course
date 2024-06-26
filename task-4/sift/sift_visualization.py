@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 from numpy.typing import NDArray
 import numpy as np
-from sift_keypoint import SIFT_KeyPoint
+from sift.sift_keypoint import SIFT_KeyPoint
 
 
 def visualize_scale_space(array: list[list[NDArray[np.float32]]], title: str):

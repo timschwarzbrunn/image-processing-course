@@ -56,3 +56,27 @@ class SIFT_Params:
         self.lambda_descriptor = lambda_descriptor
         self.threshold_match_absolute = threshold_match_absolute
         self.threshold_match_relative = threshold_match_relative
+
+    def __str__(self):
+        return (
+            "[\n"
+            + f"\tn_octaves: {self.n_octaves},\n"
+            + f"\tn_scales_per_octave: {self.n_scales_per_octave},\n"
+            + f"\tsigma_in: {self.sigma_in},\n"
+            + f"\tsigma_min: {self.sigma_min},\n"
+            + f"\tdelta_min: {self.delta_min},\n"
+            + f"\tthreshold_dog_response: {self.threshold_dog_response},\n"
+            + f"\tthreshold_edge: {self.threshold_edge},\n"
+            + f"\tn_bins: {self.n_bins},\n"
+            + f"\tlambda_orientation: {self.lambda_orientation},\n"
+            + f"\tthreshold_local_maxima: {self.threshold_local_maxima},\n"
+            + f"\tn_hist: {self.n_hist},\n"
+            + f"\tn_ori: {self.n_ori},\n"
+            + f"\tlambda_descriptor: {self.lambda_descriptor},\n"
+            + f"\tthreshold_match_absolute: {self.threshold_match_absolute},\n"
+            + f"\tthreshold_match_relative: {self.threshold_match_relative}\n"
+            + "]"
+        )
+
+    def __repr__(self):
+        return self.__str__()

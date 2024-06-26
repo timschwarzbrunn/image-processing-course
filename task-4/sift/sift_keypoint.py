@@ -54,28 +54,15 @@ class SIFT_KeyPoint:
             + f"\tx_coord: {self.x_coord},\n"
             + f"\ty_coord: {self.y_coord},\n"
             + f"\toctave: {self.octave},\n"
-            + f"\tscale level: {self.scale_level},\n"
-            + f"\tx coord in scale space: {self.x_coord_in_scale_space},\n"
-            + f"\ty coord in scale space: {self.y_coord_in_scale_space},\n"
+            + f"\tscale_level: {self.scale_level},\n"
+            + f"\tx_coord_in_scale_space: {self.x_coord_in_scale_space},\n"
+            + f"\ty_coord_in_scale_space: {self.y_coord_in_scale_space},\n"
             + f"\tsigma: {self.sigma},\n"
             + f"\tomega: {self.omega},\n"
-            + f"\torientation angle: {self.theta},\n"
+            + f"\torientation_angle (theta): {self.theta},\n"
             + f"\tmagnitude: {self.magnitude}\n"
             + "]"
         )
 
     def __repr__(self):
-        return (
-            "[\n"
-            + f"\tx_coord: {self.x_coord},\n"
-            + f"\ty_coord: {self.y_coord},\n"
-            + f"\toctave: {self.octave},\n"
-            + f"\tscale level: {self.scale_level},\n"
-            + f"\tx coord in scale space: {self.x_coord_in_scale_space},\n"
-            + f"\ty coord in scale space: {self.y_coord_in_scale_space},\n"
-            + f"\tsigma: {self.sigma},\n"
-            + f"\tomega: {self.omega},\n"
-            + f"\torientation angle: {self.theta},\n"
-            + f"\tmagnitude: {self.magnitude}\n"
-            + "]"
-        )
+        return self.__str__()

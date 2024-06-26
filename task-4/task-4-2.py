@@ -145,6 +145,11 @@ def analyze_benchmark_results(df):
     accuracy = (TP + TN) / (TP + TN + FP + FN)
     recall = TP / (TP + FN)
     precision = TP / (TP + FP)
+
+    The more iterations, the better the network.
+    The less the learning rate, the better the network.
+    The less number of layers, the better the network.
+    The solver sgd is better than adam which is better than lbfgs.
     """
     fig, axs = plt.subplots(math.ceil(len(df.index.names) / 2), 2)
     axs = axs.flatten()

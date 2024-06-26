@@ -1,5 +1,6 @@
 .DS_Store
 *.zip
+Blatt*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

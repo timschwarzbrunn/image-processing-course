@@ -151,13 +151,21 @@ def analyze_benchmark_results(df):
     The less number of layers, the better the network.
     The solver sgd is better than adam which is better than lbfgs.
     """
+    # Some better labels that include the formulas.
+    labels = {
+        "f1": "f1 = (2 * TP) / (2 * TP + FP + FN)",
+        "accuracy": "accuracy = (TP + TN) / (TP + TN + FP + FN)",
+        "recall": "recall = TP / (TP + FN)",
+        "precision": "precision = TP / (TP + FP)",
+    }
+    # Plot the results.
     fig, axs = plt.subplots(math.ceil(len(df.index.names) / 2), 2)
     axs = axs.flatten()
     for idx, index_name in enumerate(df.index.names):
         df_inspection = df.groupby(level=index_name).mean()
         print(df_inspection)
         for col_name, col in df_inspection.items():
-            axs[idx].plot(col, label=col_name)
+            axs[idx].plot(col, label=labels[col_name])
         axs[idx].set_title(index_name)
         axs[idx].legend()
         axs[idx].grid(alpha=0.25)

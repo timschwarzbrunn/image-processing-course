@@ -23,9 +23,9 @@ class SIFT_Algorithm:
             Tuple[list[list[np.ndarray]], list[float], list[list[float]]]:
                 - the scale space divide into octave - scales - images, the delta values and the sigma values.
         """
-        K = []
-        L = [sift_params.delta_min]
-        C = [[sift_params.sigma_min]]
+        scale_space = []
+        deltas = [sift_params.delta_min]
+        sigmas = [[sift_params.sigma_min]]
         R = cv2.resize(
             u_in,
             (0, 0),
@@ -41,15 +41,15 @@ class SIFT_Algorithm:
         M = [S]
         for F in range(1, sift_params.n_scales_per_octave + 3):
             H = sift_params.sigma_min * pow(2.0, F / sift_params.n_scales_per_octave)
-            G = np.sqrt(H**2 - C[0][F - 1] ** 2) / sift_params.delta_min
-            C[0].append(H)
+            G = np.sqrt(H**2 - sigmas[0][F - 1] ** 2) / sift_params.delta_min
+            sigmas[0].append(H)
             M.append(cv2.GaussianBlur(M[F - 1], (0, 0), G))
-        K.append(M)
-        for I in range(1, sift_params.n_octaves):
-            N = L[I - 1] * 2
-            L.append(N)
-            P = K[I - 1][sift_params.n_scales_per_octave - 1]
-            C.append([C[I - 1][sift_params.n_scales_per_octave - 1]])
+        scale_space.append(M)
+        for idx_octave in range(1, sift_params.n_octaves):
+            N = deltas[idx_octave - 1] * 2
+            deltas.append(N)
+            P = scale_space[idx_octave - 1][sift_params.n_scales_per_octave - 1]
+            sigmas.append([sigmas[idx_octave - 1][sift_params.n_scales_per_octave - 1]])
             P = cv2.resize(P, (0, 0), fx=0.5, fy=0.5, interpolation=cv2.INTER_LINEAR)
             Q = [P]
             for F in range(1, sift_params.n_scales_per_octave + 3):
@@ -59,11 +59,11 @@ class SIFT_Algorithm:
                     * sift_params.sigma_min
                     * pow(2.0, F / sift_params.n_scales_per_octave)
                 )
-                G = np.sqrt(H**2 - C[I][F - 1] ** 2) / N
-                C[I].append(H)
+                G = np.sqrt(H**2 - sigmas[idx_octave][F - 1] ** 2) / N
+                sigmas[idx_octave].append(H)
                 Q.append(cv2.GaussianBlur(Q[F - 1], (0, 0), G))
-            K.append(Q)
-        return K, L, C
+            scale_space.append(Q)
+        return scale_space, deltas, sigmas
 
     @staticmethod
     def create_dogs(scale_space, sift_params: SIFT_Params):
@@ -76,8 +76,8 @@ class SIFT_Algorithm:
             list[list[np.ndarray]]: the difference of gaussians.
         """
         dogs = []
-        for H in range(0, sift_params.n_octaves):
-            C = scale_space[H]
+        for idx_octave in range(0, sift_params.n_octaves):
+            C = scale_space[idx_octave]
             F = []
             for G in range(sift_params.n_scales_per_octave + 2):
                 F.append(cv2.subtract(C[G + 1], C[G]))
@@ -95,9 +95,9 @@ class SIFT_Algorithm:
             list[KeyPoint]: the discrete extremas.
         """
         keypoints = []
-        for F in range(0, sift_params.n_octaves):
-            print(f"Extrema Calculation: Octave {F}")
-            I = dogs[F]
+        for idx_octave in range(0, sift_params.n_octaves):
+            print(f"Extrema Calculation: Octave {idx_octave}")
+            I = dogs[idx_octave]
             for G in range(1, sift_params.n_scales_per_octave + 1):
                 H = I[G]
                 N = I[G - 1]
@@ -111,13 +111,13 @@ class SIFT_Algorithm:
                         if np.max(E) < H[B, C] or np.min(E) > H[B, C]:
                             keypoints.append(
                                 SIFT_KeyPoint(
-                                    F,
+                                    idx_octave,
                                     G,
                                     C,
                                     B,
-                                    sigmas[F][G],
-                                    deltas[F] * C,
-                                    deltas[F] * B,
+                                    sigmas[idx_octave][G],
+                                    deltas[idx_octave] * C,
+                                    deltas[idx_octave] * B,
                                 )
                             )
         return keypoints

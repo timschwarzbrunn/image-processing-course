@@ -66,7 +66,7 @@ def task_4_1():
     # Get the results from our own function.
     scale_space, deltas, sigmas = create_scale_space(img_grayscale, sift_params)
     dogs = create_dogs(scale_space)
-    keypoints = find_discrete_extremas(dogs, sift_params, sigmas, deltas)
+    keypoints = find_discrete_extremas(dogs, sigmas, deltas)
     # Visualize our own results.
     visualize_results(scale_space, dogs, deltas, keypoints, "own algorithm")
 
@@ -202,7 +202,7 @@ def create_dogs(scale_space):
     return dogs
 
 
-def find_discrete_extremas(dogs, sift_params: SIFT_Params, sigmas, deltas):
+def find_discrete_extremas(dogs, sigmas, deltas):
     """
     This function finds the local extremas in the DoG images calculated using the 'create_dogs' function.
     It also needs the deltas and sigmas calculated by the 'create_scale_space' function.
